@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERIFIKASI TTD - SDIT MADANI INDRAGIRI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .certificate {
+            background: white;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #fff;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1a5f7a, #2c8c99);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: linear-gradient(to right, #ffd166, #ff9a3c);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: white;
+            color: #1a5f7a;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .verified-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .verified-icon {
+            display: inline-block;
+            background: linear-gradient(135deg, #4cd964, #5ac8fa);
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            line-height: 80px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(76, 217, 100, 0.4);
+        }
+
+        .verified-text {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .signature-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #1a5f7a;
+        }
+
+        .signature-info h2 {
+            color: #1a5f7a;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .info-label {
+            width: 220px;
+            font-weight: 600;
+            color: #555;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-label i {
+            margin-right: 10px;
+            color: #1a5f7a;
+        }
+
+        .info-value {
+            flex: 1;
+            color: #222;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .highlight {
+            color: #1a5f7a;
+            font-size: 1.3rem;
+        }
+
+        .institution {
+            background: linear-gradient(to right, #fff9e6, #fff);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ffd166;
+            margin-top: 30px;
+        }
+
+        .institution h3 {
+            color: #1a5f7a;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .institution p {
+            color: #444;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .address {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #1a5f7a;
+        }
+
+        .address i {
+            color: #1a5f7a;
+            margin-right: 8px;
+        }
+
+        /* Hapus footer verifikasi */
+        .footer-verifikasi {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label {
+                width: 100%;
+            }
+            
+            .badge {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .institution h3 {
+                font-size: 1.6rem;
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="header">
+            <div class="badge">
+                <i class="fas fa-seal"></i>
+            </div>
+            <h1>VERIFIKASI DIGITAL</h1>
+            <p>Tanda Tangan Elektronik</p>
+        </div>
+        
+        <div class="content">
+            <div class="verified-section">
+                <div class="verified-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="verified-text">TANDA TANGAN TERVERIFIKASI</div>
+            </div>
+            
+            <div class="signature-info">
+                <h2><i class="fas fa-signature"></i> Dokumen ini telah ditandatangani oleh:</h2>
+                
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-user"></i> Nama Lengkap:</div>
+                    <div class="info-value highlight">KHAIRY HIDAYAT, S. AG</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-calendar-alt"></i> Tanggal Penandatanganan:</div>
+                    <div class="info-value">SABTU, 07 MARET 2026</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-briefcase"></i> Jabatan:</div>
+                    <div class="info-value">KETUA PANITIA MHQ</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-trophy"></i> Lomba/Kegiatan:</div>
+                    <div class="info-value">MUSABAQAH HIFZHIL QUR'AN 2026</div>
+                </div>
+            </div>
+            
+            <div class="institution">
+                <h3>
+                    <i class="fas fa-school"></i>
+                    SDIT MADANI INDRAGIRI
+                </h3>
+                
+                <div class="address">
+                    <p><i class="fas fa-map-marker-alt"></i> Jalan Perumahan BSD Pematang Reba</p>
+                    <p><i class="fas fa-location-dot"></i> Kecamatan Rengat Barat</p>
+                    <p><i class="fas fa-city"></i> Kabupaten Indragiri Hulu</p>
+                    <p><i class="fas fa-map"></i> Provinsi Riau - Indonesia</p>
+                </div>
+                
+                <p style="margin-top: 15px; color: #666; font-style: italic;">
+                    Sekolah Dasar Islam Terpadu Madani Indragiri
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tambahkan efek animasi halus
+        document.addEventListener('DOMContentLoaded', function() {
+            const certificate = document.querySelector('.certificate');
+            certificate.style.opacity = '0';
+            certificate.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                certificate.style.transition = 'all 0.8s ease';
+                certificate.style.opacity = '1';
+                certificate.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Animasi icon verifikasi
+            const verifiedIcon = document.querySelector('.verified-icon');
+            verifiedIcon.style.animation = 'pulse 2s infinite';
+            
+            // Tambahkan style untuk animasi
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
