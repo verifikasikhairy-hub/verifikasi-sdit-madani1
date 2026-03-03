@@ -1,459 +1,303 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VERIFIKASI TTD - SDIT MADANI INDRAGIRI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-text-size-adjust: 100%;
-            -moz-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verifikasi Tanda Tangan Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green:    #1a7a4a;
+      --green-md: #2eaa6a;
+      --green-lt: #e8f5ee;
+      --gold:     #b8860b;
+      --cream:    #f2f5f0;
+      --border:   #d8ddd0;
+      --text:     #1a1f14;
+      --muted:    #6b7260;
+      --white:    #ffffff;
+    }
 
-        body {
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            -webkit-tap-highlight-color: transparent;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .certificate {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            overflow: hidden;
-            position: relative;
-            border: 6px solid #fff;
-        }
+    body {
+      background: var(--cream);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 16px 48px;
+    }
 
-        /* Header untuk Mobile */
-        .header {
-            background: linear-gradient(to right, #1a5f7a, #2c8c99);
-            color: white;
-            padding: 20px 15px;
-            text-align: center;
-            position: relative;
-        }
+    /* subtle diamond pattern background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L55 30 L30 55 L5 30Z' fill='none' stroke='%231a7a4a' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .header:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            width: 80%;
-            height: 2px;
-            background: linear-gradient(to right, #ffd166, #ff9a3c);
-        }
+    .wrap {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
 
-        .header h1 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            line-height: 1.3;
-        }
+    /* ── Status badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--white);
+      border: 1.5px solid rgba(26,122,74,0.3);
+      border-radius: 100px;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+      box-shadow: 0 2px 10px rgba(26,122,74,0.1);
+    }
 
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            font-weight: 300;
-        }
+    .badge-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--green-md);
+      animation: blink 2.5s ease-in-out infinite;
+    }
 
-        .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: white;
-            color: #1a5f7a;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-        }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
 
-        /* Content untuk Mobile */
-        .content {
-            padding: 25px 20px;
-        }
+    /* ── Card ── */
+    .card {
+      width: 100%;
+      background: var(--white);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 28px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
 
-        .verified-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    /* top gradient stripe */
+    .stripe {
+      height: 6px;
+      background: linear-gradient(90deg, #1a5c38, #2eaa6a 55%, #b8860b);
+    }
 
-        .verified-icon {
-            display: inline-block;
-            background: linear-gradient(135deg, #4cd964, #5ac8fa);
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            line-height: 60px;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            box-shadow: 0 6px 15px rgba(76, 217, 100, 0.3);
-        }
+    /* ── Card Header ── */
+    .card-head {
+      padding: 28px 32px 22px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .verified-text {
-            font-size: 1.2rem;
-            color: #333;
-            font-weight: 600;
-            line-height: 1.4;
-            padding: 0 10px;
-        }
+    .doc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
 
-        /* Signature Info untuk Mobile */
-        .signature-info {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-left: 4px solid #1a5f7a;
-        }
+    .doc-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
 
-        .signature-info h2 {
-            color: #1a5f7a;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+    .doc-title .g { color: var(--green); }
 
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 18px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eaeaea;
-        }
+    .doc-sub {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
 
-        .info-label {
-            font-weight: 600;
-            color: #555;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
+    /* ── Shield section ── */
+    .shield-section {
+      padding: 28px 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
 
-        .info-label i {
-            margin-right: 8px;
-            color: #1a5f7a;
-            font-size: 0.9rem;
-            min-width: 18px;
-        }
+    .shield-circle {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #dff2e9, #c2e8d5);
+      border: 2px solid rgba(26,122,74,0.18);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(26,122,74,0.15);
+      animation: float 3s ease-in-out infinite;
+    }
 
-        .info-value {
-            color: #222;
-            font-size: 1rem;
-            font-weight: 600;
-            line-height: 1.4;
-            padding-left: 26px;
-        }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
-        .highlight {
-            color: #1a5f7a;
-            font-size: 1.1rem;
-        }
+    /* SVG shield icon */
+    .shield-svg { width: 46px; height: 54px; }
 
-        /* Institution untuk Mobile */
-        .institution {
-            background: linear-gradient(to right, #fff9e6, #fff);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1.5px solid #ffd166;
-            margin-top: 25px;
-        }
+    /* divider */
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .institution h3 {
-            color: #1a5f7a;
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            line-height: 1.3;
-        }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
-        .institution p {
-            color: #444;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 8px 0;
-        }
+    .divider-txt {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
 
-        .address {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 3px solid #1a5f7a;
-            text-align: left;
-        }
+    /* ── Signer info ── */
+    .signer {
+      width: 100%;
+      padding: 0 32px 28px;
+    }
 
-        .address i {
-            color: #1a5f7a;
-            margin-right: 8px;
-            font-size: 0.9rem;
-            min-width: 18px;
-        }
+    .row {
+      display: flex;
+      align-items: flex-start;
+      padding: 11px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.08);
+    }
 
-        /* Media Query untuk Tablet */
-        @media (min-width: 768px) {
-            .certificate {
-                max-width: 700px;
-                border-radius: 18px;
-            }
-            
-            .header {
-                padding: 25px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header p {
-                font-size: 1.1rem;
-            }
-            
-            .badge {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
-                top: 20px;
-                right: 20px;
-            }
-            
-            .content {
-                padding: 35px 30px;
-            }
-            
-            .verified-icon {
-                width: 70px;
-                height: 70px;
-                line-height: 70px;
-                font-size: 2.2rem;
-            }
-            
-            .verified-text {
-                font-size: 1.5rem;
-            }
-            
-            .signature-info {
-                padding: 25px;
-            }
-            
-            .signature-info h2 {
-                font-size: 1.5rem;
-            }
-            
-            .info-item {
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .info-label {
-                width: 180px;
-                font-size: 1rem;
-                margin-bottom: 0;
-            }
-            
-            .info-value {
-                flex: 1;
-                font-size: 1.1rem;
-                padding-left: 0;
-            }
-            
-            .highlight {
-                font-size: 1.2rem;
-            }
-            
-            .institution h3 {
-                font-size: 1.8rem;
-            }
-            
-            .institution p {
-                font-size: 1.05rem;
-            }
-        }
+    .row:last-child { border-bottom: none; }
 
-        /* Media Query untuk Desktop */
-        @media (min-width: 1024px) {
-            .certificate {
-                max-width: 800px;
-            }
-            
-            .header {
-                padding: 30px;
-            }
-            
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .content {
-                padding: 40px;
-            }
-        }
+    .row-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      width: 80px;
+      flex-shrink: 0;
+    }
 
-        /* Animasi untuk Mobile */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .row-sep {
+      font-size: 13px;
+      color: var(--border);
+      font-weight: 700;
+      margin-right: 10px;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .row-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
 
-        .certificate {
-            animation: fadeIn 0.6s ease-out;
-        }
+    .row-val.name  { color: var(--green); font-size: 15px; }
+    .row-val.time  { color: var(--gold); }
 
-        .verified-icon {
-            animation: pulse 2s infinite;
-        }
-
-        /* Touch-friendly buttons */
-        .touch-target {
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        /* Prevent text selection */
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* Better scrolling on mobile */
-        .better-scroll {
-            -webkit-overflow-scrolling: touch;
-        }
-    </style>
+    @media (max-width: 420px) {
+      .card-head, .signer { padding-left: 20px; padding-right: 20px; }
+      .shield-section { padding-left: 20px; padding-right: 20px; }
+      .doc-title { font-size: 17px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="certificate">
-        <div class="header">
-            <div class="badge">
-                <i class="fas fa-seal"></i>
-            </div>
-            <h1>VERIFIKASI DIGITAL</h1>
-            <p>Tanda Tangan Elektronik Resmi</p>
-        </div>
-        
-        <div class="content">
-            <div class="verified-section">
-                <div class="verified-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="verified-text">TANDA TANGAN TERVERIFIKASI</div>
-            </div>
-            
-            <div class="signature-info">
-                <h2><i class="fas fa-signature"></i> Dokumen ini telah ditandatangani oleh:</h2>
-                
-                <div class="info-item">
-                    <div class="info-label"><i class="fas fa-user"></i> Nama Lengkap:</div>
-                    <div class="info-value highlight">KHAIRY HIDAYAT, S. Ag</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label"><i class="fas fa-calendar-alt"></i> Tanggal:</div>
-                    <div class="info-value">SABTU, 07 MARET 2026</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label"><i class="fas fa-briefcase"></i> Jabatan:</div>
-                    <div class="info-value">KETUA PANITIA MHQ</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-label"><i class="fas fa-trophy"></i> Kegiatan:</div>
-                    <div class="info-value">MUSABAQAH HIFZHIL QUR'AN 2026</div>
-                </div>
-            </div>
-            
-            <div class="institution">
-                <h3>
-                    <i class="fas fa-school"></i>
-                    SDIT MADANI INDRAGIRI
-                </h3>
-                
-                <div class="address">
-                    <p><i class="fas fa-map-marker-alt"></i> Jalan Perumahan BSD Pematang Reba</p>
-                    <p><i class="fas fa-location-dot"></i> Kec. Rengat Barat</p>
-                    <p><i class="fas fa-city"></i> Kab. Indragiri Hulu</p>
-                    <p><i class="fas fa-map"></i> Provinsi Riau - Indonesia</p>
-                </div>
-                
-                <p style="margin-top: 15px; color: #666; font-style: italic; font-size: 0.9rem;">
-                    Sekolah Dasar Islam Terpadu Madani Indragiri
-                </p>
-            </div>
-        </div>
+<div class="wrap">
+
+  <!-- Badge -->
+  <div class="badge">
+    <div class="badge-dot"></div>
+    Tanda Tangan Terverifikasi
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="stripe"></div>
+
+    <!-- Header -->
+    <div class="card-head">
+      <div class="doc-title">
+        Panitia <span class="g">MHQ</span>, Lomba Adzan, dan Mewarnai Tingkat <span class="g">KB dan TK</span> Kecamatan Rengat Barat
+      </div>
+      <div class="doc-sub">SDIT MADANI INDRAGIRI — Tahun 2026</div>
     </div>
 
-    <script>
-        // Optimasi untuk mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cek jika di mobile
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // Optimasi untuk touch devices
-                document.body.classList.add('touch-device');
-                
-                // Prevent zoom on double tap
-                let lastTouchEnd = 0;
-                document.addEventListener('touchend', function(event) {
-                    const now = (new Date()).getTime();
-                    if (now - lastTouchEnd <= 300) {
-                        event.preventDefault();
-                    }
-                    lastTouchEnd = now;
-                }, false);
-            }
-            
-            // Smooth animation
-            const certificate = document.querySelector('.certificate');
-            certificate.style.willChange = 'transform, opacity';
-        });
-    </script>
+    <!-- Shield + Divider -->
+    <div class="shield-section">
+      <div class="shield-circle">
+        <!-- Shield SVG icon -->
+        <svg class="shield-svg" viewBox="0 0 46 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23 2L4 10V26C4 37.05 12.4 47.37 23 50C33.6 47.37 42 37.05 42 26V10L23 2Z"
+            fill="url(#sg)" stroke="#1a7a4a" stroke-opacity="0.3" stroke-width="1.5"/>
+          <path d="M23 6L8 13V26C8 35.0 15.2 43.5 23 46C30.8 43.5 38 35.0 38 26V13L23 6Z"
+            fill="url(#sg2)"/>
+          <path d="M16 27l5 5 9-10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="sg" x1="23" y1="2" x2="23" y2="50" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#c8e6d4"/>
+              <stop offset="1" stop-color="#a0d4b8"/>
+            </linearGradient>
+            <linearGradient id="sg2" x1="23" y1="6" x2="23" y2="46" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#d8efe3"/>
+              <stop offset="1" stop-color="#b0dcca"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="divider">
+        <span class="divider-txt">Dokumen ini telah ditandatangani oleh</span>
+      </div>
+    </div>
+
+    <!-- Signer Info -->
+    <div class="signer">
+      <div class="row">
+        <span class="row-label">Nama</span>
+        <span class="row-sep">:</span>
+        <span class="row-val name">Khairy Hidayat, S.Ag</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Jabatan</span>
+        <span class="row-sep">:</span>
+        <span class="row-val">Ketua Panitia</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Instansi</span>
+        <span class="row-sep">:</span>
+        <span class="row-val">SDIT MADANI Indragiri</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Waktu</span>
+        <span class="row-sep">:</span>
+        <span class="row-val time">Sabtu, 07 Maret 2026 —<br>Pukul 11.50 WIB</span>
+      </div>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>
-
